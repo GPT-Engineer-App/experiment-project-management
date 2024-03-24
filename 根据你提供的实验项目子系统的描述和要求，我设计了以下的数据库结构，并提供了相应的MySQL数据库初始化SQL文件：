@@ -1,0 +1,52 @@
+-- 创建数据库
+CREATE DATABASE IF NOT EXISTS experiment_system DEFAULT CHARSET utf8mb4;
+
+USE experiment_system;
+
+-- 创建实验课程表
+CREATE TABLE experiment_course (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 创建实验项目表
+CREATE TABLE experiment_project (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  course_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (course_id) REFERENCES experiment_course(id)
+);
+
+-- 创建实验数据表
+CREATE TABLE experiment_data (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  project_id INT NOT NULL,
+  student_id VARCHAR(20) NOT NULL,
+  data JSON,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (project_id) REFERENCES experiment_project(id)
+);
+
+-- 插入示例数据
+INSERT INTO experiment_course (name, description) VALUES
+  ('计算机网络', '计算机网络实验课程'),
+  ('操作系统', '操作系统实验课程');
+
+INSERT INTO experiment_project (course_id, name, description) VALUES
+  (1, '网络拓扑实验', '构建不同的网络拓扑结构'),
+  (1, '路由配置实验', '配置路由器和交换机'),
+  (2, '进程管理实验', '学习进程的创建、调度和通信'),
+  (2, '内存管理实验', '学习内存的分配和回收');
+
+INSERT INTO experiment_data (project_id, student_id, data) VALUES
+  (1, '2023001', '{"topology": "star", "devices": 5}'),
+  (1, '2023002', '{"topology": "bus", "devices": 3}'),
+  (2, '2023001', '{"router": "Cisco 2911", "switch": "Cisco 2960"}'),
+  (3, '2023003', '{"algorithm": "FCFS", "processes": 4}');
