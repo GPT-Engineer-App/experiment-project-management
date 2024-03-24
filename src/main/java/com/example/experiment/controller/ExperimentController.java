@@ -1,44 +1,39 @@
-@RestController
-@RequestMapping("/api/experiments")
-public class ExperimentController {
-    @Autowired
-    private ExperimentService experimentService;
-
-    @GetMapping("/courses")
-    public List<Course> getAllCourses() {
-        return experimentService.getAllCourses();
+@GetMapping("/courses/student")
+    public List<Course> getAvailableCourses() {
+        return experimentService.getAvailableCourses();
     }
 
-    @GetMapping("/courses/{id}")
-    public Course getCourseById(@PathVariable Long id) {
-        return experimentService.getCourseById(id);
+    @PostMapping("/courses/assign")
+    public void assignCourseToEducator(@RequestBody CourseAssignment courseAssignment) {
+        experimentService.assignCourseToEducator(courseAssignment);
     }
 
-    @PostMapping
-    public Experiment createExperiment(@RequestBody Experiment experiment) {
-        return experimentService.createExperiment(experiment);
+    @PostMapping("/projects")
+    public void createExperimentProject(@RequestBody ExperimentProject experimentProject) {
+        experimentService.createExperimentProject(experimentProject);
     }
 
-    @PutMapping("/{id}")
-    public Experiment updateExperiment(@PathVariable Long id, @RequestBody Experiment experimentDetails) {
-        return experimentService.updateExperiment(id, experimentDetails);
+    @GetMapping("/projects/student")
+    public List<ExperimentProject> getExperimentProjects() {
+        return experimentService.getExperimentProjects();
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteExperiment(@PathVariable Long id) {
-        experimentService.deleteExperiment(id);
+    @PostMapping("/projects/customize")
+    public void customizeExperimentProject(@RequestBody CustomExperimentProject customExperimentProject) {
+        experimentService.customizeExperimentProject(customExperimentProject);
     }
 
-    @GetMapping("/export/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
-        response.setContentType("application/octet-stream");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=experiments.xlsx";
-        response.setHeader(headerKey, headerValue);
-
-        List<Experiment> experiments = experimentRepository.findAll();
-
-        ExperimentExcelExporter excelExporter = new ExperimentExcelExporter(experiments);
-        excelExporter.export(response);
+    @GetMapping("/export/custom")
+    public void exportCustomExperimentData(HttpServletResponse response) throws IOException {
+        experimentService.exportCustomExperimentData(response);
     }
-}
+
+    @PostMapping("/analyze")
+    public void analyzeData(@RequestBody DataAnalysisRequest dataAnalysisRequest) {
+        experimentService.analyzeData(dataAnalysisRequest);
+    }
+
+    @GetMapping("/analysis-results")
+    public DataAnalysisResult getAnalysisResults() {
+        return experimentService.getAnalysisResults();
+    }

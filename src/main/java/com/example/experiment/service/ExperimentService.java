@@ -1,31 +1,31 @@
-@Service
-public class ExperimentService {
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private ExperimentRepository experimentRepository;
-
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+public List<Course> getAvailableCourses() {
+       
     }
 
-    public Course getCourseById(Long id) {
-        return courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
+    public void assignCourseToEducator(CourseAssignment courseAssignment) {
+       
     }
 
-    public Experiment createExperiment(Experiment experiment) {
-        return experimentRepository.save(experiment);
+    public void createExperimentProject(ExperimentProject experimentProject) {
+       
     }
 
-    public Experiment updateExperiment(Long id, Experiment experimentDetails) {
-        Experiment experiment = experimentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Experiment not found with id: " + id));
-        experiment.setTitle(experimentDetails.getTitle());
-        experiment.setType(experimentDetails.getType());
-        return experimentRepository.save(experiment);
+    public List<ExperimentProject> getExperimentProjects() {
+       
     }
 
-    public void deleteExperiment(Long id) {
-        Experiment experiment = experimentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Experiment not found with id: " + id));
-        experimentRepository.delete(experiment);
+    public void customizeExperimentProject(CustomExperimentProject customExperimentProject) {
+       
     }
-}
+
+    public void exportCustomExperimentData(HttpServletResponse response) throws IOException {
+       
+    }
+
+    public void analyzeData(DataAnalysisRequest dataAnalysisRequest) {
+       
+    }
+
+    public DataAnalysisResult getAnalysisResults() {
+       
+    }
